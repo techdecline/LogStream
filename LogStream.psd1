@@ -87,7 +87,7 @@ AliasesToExport = '*'
 # ModuleList = @()
 
 # List of all files packaged with this module
-# FileList = @()
+FileList = "function-Write-ErrorLog.ps1","function-Write-Log.ps1","function-Write-VerboseLog.ps1","function-Write-WarningLog.ps1"
 
 # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
 PrivateData = @{
@@ -101,7 +101,7 @@ PrivateData = @{
         # LicenseUri = ''
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+        ProjectUri = 'https://github.com/techdecline/logstream'
 
         # A URL to an icon representing this module.
         # IconUri = ''
