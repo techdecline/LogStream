@@ -1,3 +1,8 @@
+<#
+    .SYNOPSIS
+    .DESCRIPTION
+    .EXAMPLE
+#>
 Function Write-Log
 {
     [CmdletBinding()]
@@ -91,14 +96,12 @@ Function Write-Log
             2 { Write-Error $LogMessage -ErrorAction Continue}
             Default {}
         }
-        If ($env:USERNAME -eq "rollem") {Write-Host ($Prefix + $LogMessage)}
         Add-Content -Path $LogFile -Value ($Prefix + $LogMessage)
     }
 
     #NewLine
     If ($NewLine -eq $True)
     {
-        If ($env:USERNAME -eq "rollem") {Write-Host ""}
         Add-Content -Path $LogFile -Value ""
     }
 

@@ -1,3 +1,8 @@
+<#
+    .SYNOPSIS
+    .DESCRIPTION
+    .EXAMPLE
+#>
 function Write-ErrorLog {
     [cmdletbinding()]
     param (
