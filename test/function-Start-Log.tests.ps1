@@ -10,17 +10,20 @@ function TestFile ([String]$Path) {
     return $file
 }
 
-Describe "Start-Log Function Test" {
-    Mock -CommandName New-Item -MockWith {
-        TestFile -Path "C:\Temp\new.txt"
-    }
+ InModuleScope -ModuleName $moduleName {
+    Describe "Start-Log Function Test" {
+        Mock -CommandName New-Item -MockWith {
+            TestFile -Path "C:\Temp\new.txt"
+        }
 
-    it "Start-Log should stop when Access denied" {
+        Mock -CommandName Add-Content
+        Mock -CommandName Get-Item
 
-    }
-    it "Should create new file when File does not exist" {
-        $logFileObj = Start-Log -LogFilePath "C:\Temp\new.txt"
-        $logFileObj.FullName | Should Be "C:\Temp\new.txt"
-        Assert-MockCalled -CommandName New-Item -Scope It -Times 1
+        it "Should create new file when File does not exist" {
+
+            $logFileObj = Start-Log -LogFilePath "C:\Temp\new.txt"
+            $logFileObj.FullName | Should Be "C:\Temp\new.txt"
+            Assert-MockCalled -CommandName New-Item -Scope It -Times 1
+        }
     }
 }

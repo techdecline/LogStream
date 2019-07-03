@@ -25,7 +25,7 @@ function Start-Log {
         [switch]$Append
     )
     process {
-        Function Touch-File {
+        <#Function Touch-File {
             $file = $args[0]
             if($file -eq $null) {
                 throw "No filename supplied"
@@ -44,17 +44,26 @@ function Start-Log {
                     Throw "Write Access denied"
                 }
             }
+        }#>
+        if($LogFilePath -eq $null) {
+            throw "No filename supplied"
         }
 
-        try {
-            Touch-File $LogFilePath
+        if(Test-Path $LogFilePath)
+        {
+            (Get-ChildItem $LogFilePath).LastWriteTime = Get-Date
+            if (-not ($Append)) {
+                Clear-Content -Path $LogFilePath
+            }
         }
-        catch [System.Management.Automation.SetValueInvocationException] {
-            Throw "Write Access denied"
-        }
-
-        if (-not ($Append) -and (Get-Content $LogFilePath) -ne $null) {
-            Clear-Content -Path $LogFilePath
+        else
+        {
+            try {
+                New-Item -Path $LogFilePath
+            }
+            catch [System.Management.Automation.SetValueInvocationException] {
+                Throw "Write Access denied"
+            }
         }
 
         Add-Content -Path $LogFilePath -Value "==================================================================================================="
