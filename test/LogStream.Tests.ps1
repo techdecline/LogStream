@@ -1,7 +1,7 @@
 $ModuleManifestName = 'LogStream.psd1'
 $ModuleName = ($ModuleManifestName -split "\.")[0]
 $ModuleManifestPath = "$PSScriptRoot\..\$ModuleManifestName"
-
+Import-Module pester -MinimumVersion 4.0.0
 
 Describe 'Module Manifest Tests' {
     It 'Passes Test-ModuleManifest' {
@@ -38,26 +38,29 @@ Describe  "Module Function Tests" {
             }
 
             It "$functionStr.ps1 should have a help block" {
-                "$PSScriptRoot\..\function-$functionStr.ps1" | Should Contain '<#'
-                "$PSScriptRoot\..\function-$functionStr.ps1" | Should Contain '#>'
+                #"$PSScriptRoot\..\function-$functionStr.ps1" | Should Contain '<#'
+                "$PSScriptRoot\..\function-$functionStr.ps1" | Should FileContentMatch '<#'
+                #"$PSScriptRoot\..\function-$functionStr.ps1" | Should Contain '#>'
+                "$PSScriptRoot\..\function-$functionStr.ps1" | Should FileContentMatch '#>'
+
             }
 
             It "$functionStr.ps1 should have a SYNOPSIS in the help block" {
-                "$PSScriptRoot\..\function-$functionStr.ps1" | Should Contain 'SYNOPSIS'
+                "$PSScriptRoot\..\function-$functionStr.ps1" | Should FileContentMatch 'SYNOPSIS'
             }
 
             It "$functionStr.ps1 should have a DESCRIPTION in the help block" {
-                "$PSScriptRoot\..\function-$functionStr.ps1" | Should Contain 'DESCRIPTION'
+                "$PSScriptRoot\..\function-$functionStr.ps1" | Should FileContentMatch 'DESCRIPTION'
             }
 
             It "$functionStr.ps1 should have a EXAMPLE in the help block" {
-                "$PSScriptRoot\..\function-$functionStr.ps1" | Should Contain 'EXAMPLE'
+                "$PSScriptRoot\..\function-$functionStr.ps1" | Should FileContentMatch 'EXAMPLE'
             }
 
             It "$functionStr.ps1 should be an advanced function" {
-                "$PSScriptRoot\..\function-$functionStr.ps1" | Should Contain 'function'
-                "$PSScriptRoot\..\function-$functionStr.ps1" | Should Contain 'cmdletbinding'
-                "$PSScriptRoot\..\function-$functionStr.ps1" | Should Contain 'param'
+                "$PSScriptRoot\..\function-$functionStr.ps1" | Should FileContentMatch 'function'
+                "$PSScriptRoot\..\function-$functionStr.ps1" | Should FileContentMatch 'cmdletbinding'
+                "$PSScriptRoot\..\function-$functionStr.ps1" | Should FileContentMatch 'param'
             }
               <#
               It "$functionStr.ps1 should contain Write-Verbose blocks" {
