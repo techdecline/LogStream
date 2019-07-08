@@ -10,9 +10,17 @@ function Write-VerboseLog {
     [cmdletbinding()]
     param (
         # Parameter help description
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$true)]
+        [ValidateScript({
+            if (-not (Test-Path $_)) {
+                throw "You need to create a log file first using Start-Log"
+            }
+            else {
+                return $true
+            }
+        })]
         [string]
-        $LogFilePath = $null,
+        $LogFilePath,
 
         # Parameter help description
         [Parameter(Mandatory)]
@@ -20,10 +28,7 @@ function Write-VerboseLog {
         $Message
     )
 
-    if ($LogFilePath) {
-        Write-Log -LogFile $LogFilePath -CritLevel 0 -LogMessage $Message
-    }
-    else {
-        Write-Verbose -Message $Message
-    }
+    $Prefix = "[$([DateTime]::Now)] Info: "
+    Add-Content -Path $LogFilePath -Value ($Prefix + $Message)
+    Write-Verbose $Message -ErrorAction Continue
 }

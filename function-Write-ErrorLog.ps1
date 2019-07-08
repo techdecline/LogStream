@@ -1,8 +1,8 @@
 <#
     .SYNOPSIS
-    Writes a message into Error stream and into a given log file.
+    Writes a message into Warning stream and an error into a given log file.
     .DESCRIPTION
-    Writes a message into Error stream and into a given log file.
+    Writes a message into Warning stream and an error into a given log file. This CMDlet should be used to document errors in a log, but not to suspend or stop script activity.
     .EXAMPLE
     PS> Write-ErrorLog -LogFilePath -Message "This is an error message"
 #>
@@ -10,9 +10,17 @@ function Write-ErrorLog {
     [cmdletbinding()]
     param (
         # Parameter help description
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$true)]
+        [ValidateScript({
+            if (-not (Test-Path $_)) {
+                throw "You need to create a log file first using Start-Log"
+            }
+            else {
+                return $true
+            }
+        })]
         [string]
-        $LogFilePath = $null,
+        $LogFilePath,
 
         # Parameter help description
         [Parameter(Mandatory)]
@@ -20,10 +28,7 @@ function Write-ErrorLog {
         $Message
     )
 
-    if ($LogFilePath) {
-        Write-Log -LogFile $LogFilePath -CritLevel 2 -LogMessage $Message
-    }
-    else {
-        Write-Error -Message $Message
-    }
+    $Prefix = "[$([DateTime]::Now)] Error: "
+    Add-Content -Path $LogFilePath -Value ($Prefix + $Message)
+    Write-Warning $Message -ErrorAction Continue
 }

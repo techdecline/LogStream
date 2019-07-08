@@ -10,9 +10,17 @@ function Write-WarningLog {
     [cmdletbinding()]
     param (
         # Parameter help description
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$true)]
+        [ValidateScript({
+            if (-not (Test-Path $_)) {
+                throw "You need to create a log file first using Start-Log"
+            }
+            else {
+                return $true
+            }
+        })]
         [string]
-        $LogFilePath = $null,
+        $LogFilePath,
 
         # Parameter help description
         [Parameter(Mandatory)]
@@ -20,10 +28,7 @@ function Write-WarningLog {
         $Message
     )
 
-    if ($LogFilePath) {
-        Write-Log -LogFile $LogFilePath -CritLevel 1 -LogMessage $Message
-    }
-    else {
-        Write-Warning -Message $Message
-    }
+    $Prefix = "[$([DateTime]::Now)] Warning: "
+    Add-Content -Path $LogFilePath -Value ($Prefix + $Message)
+    Write-Warning $Message -ErrorAction Continue
 }
