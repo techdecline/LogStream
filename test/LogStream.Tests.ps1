@@ -1,7 +1,7 @@
 $ModuleManifestName = 'LogStream.psd1'
 $ModuleName = ($ModuleManifestName -split "\.")[0]
 $ModuleManifestPath = "$PSScriptRoot\..\$ModuleManifestName"
-Import-Module pester -MinimumVersion 4.0.0
+#Import-Module pester -MinimumVersion 4.0.0
 
 Describe 'Module Manifest Tests' {
     It 'Passes Test-ModuleManifest' {
