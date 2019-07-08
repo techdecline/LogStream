@@ -1,7 +1,10 @@
 <#
     .SYNOPSIS
+    Writes a message into Error stream and into a given log file.
     .DESCRIPTION
+    Writes a message into Error stream and into a given log file.
     .EXAMPLE
+    PS> Write-ErrorLog -LogFilePath -Message "This is an error message"
 #>
 function Write-ErrorLog {
     [cmdletbinding()]

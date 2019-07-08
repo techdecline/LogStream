@@ -1,7 +1,10 @@
 <#
     .SYNOPSIS
+    Writes a message into Warning stream and into a given log file.
     .DESCRIPTION
+    Writes a message into Warning stream and into a given log file.
     .EXAMPLE
+    PS> Write-WarningLog -LogFilePath -Message "This is a warning"
 #>
 function Write-WarningLog {
     [cmdletbinding()]

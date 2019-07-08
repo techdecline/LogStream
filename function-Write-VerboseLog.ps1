@@ -1,7 +1,10 @@
 <#
     .SYNOPSIS
+    Writes a message into Verbose stream and into a given log file.
     .DESCRIPTION
+    Writes a message into Verbose stream and into a given log file.
     .EXAMPLE
+    PS> Write-VerboseLog -LogFilePath -Message "This is a verbose message"
 #>
 function Write-VerboseLog {
     [cmdletbinding()]
