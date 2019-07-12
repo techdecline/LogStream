@@ -28,6 +28,7 @@ function Write-VerboseLog {
         $Message
     )
 
+    $VerbosePreference = "Continue"
     $Prefix = "[$([DateTime]::Now)] Info: "
     Add-Content -Path $LogFilePath -Value ($Prefix + $Message)
     Write-Verbose $Message -ErrorAction Continue
