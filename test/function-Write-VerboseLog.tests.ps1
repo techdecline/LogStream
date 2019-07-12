@@ -28,5 +28,10 @@ InModuleScope -ModuleName $moduleName {
             Assert-MockCalled -CommandName Add-Content -Times 1
             Assert-MockCalled -CommandName Get-Content -Times 1
         }
+
+        It "Should write a verbose message into output stream" {
+            $bla = Write-VerboseLog -LogFilePath "C:\VerboseTest.txt" -Message "Verbose" 4>&1
+            $bla.Message | should belike "Verbose"
+        }
     }
 }
